@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="nav">
+        <a href="#">Patient Dashboard</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>Search Doctors</h2>
+            <input type="text" id="search" placeholder="Search by Specialization">
+            <button onclick="searchDoc()">Search</button>
+            <div id="results" style="margin-top:20px;"></div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        async function searchDoc() {
+            const spec = document.getElementById('search').value;
+            const res = await apiFetch(`/doctors/search?specialization=${spec}`);
+            if(res.success) {
+                document.getElementById('results').innerHTML = res.data.map(d => `<p>${d.name} - ${d.specialization} <button>Book</button></p>`).join('');
+            }
+        }
+    </script>
+</body>
+</html>
